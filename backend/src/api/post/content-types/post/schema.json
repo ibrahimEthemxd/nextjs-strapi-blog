@@ -29,6 +29,23 @@
       "type": "uid",
       "required": false,
       "targetField": "title"
+    },
+    "coverImage": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "excerpt": {
+      "type": "string",
+      "maxLength": 150
+    },
+    "author": {
+      "type": "string"
     }
   }
 }
