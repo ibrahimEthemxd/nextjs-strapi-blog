@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js & Strapi Blog Platform
 
-## Getting Started
+Bu proje, **Strapi CMS** ile yönetilen blog içeriklerini, **Next.js** ile oluşturulmuş bir frontend üzerinden listeleyen ve detaylarını gösteren bir uygulamadır. Arayüzde **Tailwind CSS** kullanılmıştır. Amaç, Headless CMS mimarisiyle içerik üretimini ve sunumunu ayrıştırmak ve modern bir blog deneyimi sunmaktır.
 
-First, run the development server:
+## 🚀 Kullanılan Teknolojiler
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Strapi** – Headless CMS olarak içeriklerin (blog yazıları) yönetimi için
+- **Next.js** – React tabanlı frontend framework, SSR (Sunucu Taraflı Render) desteğiyle
+- **Tailwind CSS** – Hızlı ve modern stillendirme için utility-first CSS framework
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📝 Özellikler
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🧾 Blog Oluşturma Sayfası
+- Yeni bir blog oluşturmak için kullanıcıdan başlık, içerik ve gerekli alanlar alınır.
+- Form submit işlemi, Strapi CMS'nin REST API'sine `POST` isteği göndererek içeriği oluşturur.
 
-## Learn More
+### 📃 Blog Listeleme Sayfası
+- Tüm blog yazıları Strapi'den çekilir.
+- SSR (Sunucu Taraflı Render) ile sayfa önceden oluşturularak hızlı bir kullanıcı deneyimi sağlanır.
+- Her bir blog kartına tıklanıldığında detay sayfasına yönlendirme yapılır.
 
-To learn more about Next.js, take a look at the following resources:
+### 📄 Blog Detay Sayfası
+- Seçilen blog yazısının başlığı, içeriği ve varsa görselleri detaylı olarak gösterilir.
+- Sayfa yine SSR ile render edilir.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📦 Kurulum
 
-## Deploy on Vercel
+Projeyi yerel ortamda çalıştırmak için:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Bu repoyu klonlayın:
+   ```bash
+   git clone https://github.com/ibrahimEthemxd/nextjs-strapi-blog.git
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   is this project empty ? 
