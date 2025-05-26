@@ -28,54 +28,64 @@ export default function SearchPage() {
     <div className="p-4">
       {posts.length === 0 && <p>Sonuç bulunamadı.</p>}
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-       {posts.map(post => {
-  const { id, title, slug, coverImage, description, author, publishedAt } = post;
+        {posts.map(post => {
+          const { id, title, slug, coverImage, description, author, publishedAt } = post;
 
-  const imageUrl = coverImage && coverImage.url
-    ? `http://localhost:1337${coverImage.url}`
-    : '/4.jpg';
+          const imageUrl = coverImage && coverImage.url
+            ? `http://localhost:1337${coverImage.url}`
+            : '/4.jpg';
 
-  const excerpt =
-    post.excerpt ||
-    description?.[0]?.children?.[0]?.text?.slice(0, 100) || 'Açıklama yok';
+          const excerpt =
+            post.excerpt ||
+            description?.[0]?.children?.[0]?.text?.slice(0, 100) || 'Açıklama yok';
 
-  const dateStr = publishedAt
-    ? new Date(publishedAt).toLocaleDateString('tr-TR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    : 'Tarih yok';
+          const dateStr = publishedAt
+            ? new Date(publishedAt).toLocaleDateString('tr-TR', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })
+            : 'Tarih yok';
 
-  return (
-    <li key={id} className="border rounded p-2 shadow hover:shadow-md transition">
-      <Link href={`/posts/${slug}`}>
-        <div>
-          {/* Görsel */}
-          <div className="relative w-full h-48 bg-gray-200 flex items-center justify-center rounded overflow-hidden">
-            <img
-              src={imageUrl}
-              alt={title}
-              className="object-cover w-full h-full"
-            />
-          </div>
+          return (
+            <li key={id} className="border rounded p-2 shadow hover:shadow-md transition">
+              <Link href={`/posts/${slug}`}>
+                <div>
+                  {/* Görsel */}
+                  <div className="relative w-full h-48 bg-gray-200 flex items-center justify-center rounded overflow-hidden">
+                    <img
+                      src={imageUrl}
+                      alt={title}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
 
-          {/* Başlık */}
-          <h2 className="mt-2 text-lg font-semibold">{title}</h2>
+                  {/* Başlık */}
+                  <h2 className="mt-2 text-lg font-semibold">{title}</h2>
 
-          {/* Açıklama */}
-          <p className="text-sm text-gray-600 mt-1 line-clamp-2">{excerpt}</p>
+                  {/* Açıklama */}
+                  <p className="text-sm text-gray-600 mt-1 line-clamp-2">{excerpt}</p>
 
-          {/* Yazar ve Tarih */}
-          <div className="text-xs text-gray-400 mt-2 flex justify-between">
-            <span>{author || 'Bilinmeyen yazar'}</span>
-            <span>{dateStr}</span>
-          </div>
-        </div>
-      </Link>
-    </li>
-  );
-})}
+                  {/* Yazar ve Tarih */}
+                  <div className="text-xs text-gray-400 mt-2 flex justify-between">
+                    <span>{author || 'Bilinmeyen yazar'}</span>
+                    <span>{dateStr}</span>
+                  </div>
+                </div>
+              </Link>
+              <div className="mt-auto pt-2">
+                <Link href={`/posts/${slug}`}>
+                  <button
+                    type="button"
+                    className="w-full bg-blue-600 text-white mt-4 cursor-pointer py-2 rounded hover:bg-blue-700 transition"
+                  >
+                    Devamını Oku
+                  </button>
+                </Link>
+              </div>
+            </li>
+          );
+        })}
 
       </ul>
     </div>

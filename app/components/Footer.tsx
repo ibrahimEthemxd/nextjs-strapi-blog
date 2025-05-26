@@ -6,14 +6,12 @@ export default function Footer() {
   return (
     <footer className="bg-gray-100 mt-16 text-gray-700 border-t">
       <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Kişisel */}
         <div>
           <h3 className="text-lg font-semibold mb-2">İbrahim Ethem Öztürk</h3>
           <p className="text-sm">Bilgisayar Mühendisi, Frontend Developer</p>
           <p className="text-sm">Blog, portföy ve projelerimi burada bulabilirsiniz.</p>
         </div>
 
-        {/* Linkler */}
         <div>
           <h4 className="text-lg font-semibold mb-2">Bağlantılar</h4>
           <ul className="space-y-1 text-sm">
@@ -33,7 +31,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Sosyal Medya */}
         <div>
           <h4 className="text-lg font-semibold mb-2">Sosyal Medya</h4>
           <div className="flex items-center gap-4 text-xl">

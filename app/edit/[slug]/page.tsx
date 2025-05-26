@@ -76,9 +76,9 @@ export default function EditPage({ params }: { params: Promise<{ slug: string }>
             ],
         };
 
-        const res = await fetch(`http://localhost:1337/api/posts?filters[id][$eq]=${postId}`, {
+        const res = await fetch(`http://localhost:1337/api/posts/${postId}`, {
             method: 'PUT',
-            headers: {
+            headers: {  
                 'Content-Type': 'application/json',
                 Authorization:
                     'Bearer 6bb7213a09d24f18385fec74a74af79c8a40df310fc4464b2d4506912c9d1aa2c813f8aa9fec55d40b649c07c19d6faa092d4158a79974076ba4cd70b1a11a7412b592ac480b52e7bce7a2c9d67a9b95ee094bb1fd297499e6c3782d27306a72e16d0c8162efc84bdfd1f44ecb76012e3ba1123c257978f5a3930d8237fed689',

@@ -6,13 +6,7 @@ interface Post {
   slug: string;
   publishedAt: string;
   description?: { children: { text: string }[] }[];
-  coverImage?: {
-    data: {
-      attributes: {
-        url: string;
-      };
-    };
-  };
+  coverImage?: string | null;
   author?: string;
 }
 
@@ -29,7 +23,20 @@ async function getPost(slug: string): Promise<Post | null> {
     const res = await fetch(`http://localhost:1337/api/posts?filters[slug][$eq]=${slug}&populate=*`);
     if (!res.ok) return null;
     const data = await res.json();
-    return data.data[0] || null;
+    const item = data.data[0];
+
+    if (!item) return null;
+
+    return {
+      title: item.title,
+      slug: item.slug,
+      publishedAt: item.publishedAt,
+      description: item.description,
+      coverImage: item.coverImage?.url
+        ? `http://localhost:1337${item.coverImage.url}`
+        : null,
+      author: item.author,
+    };
   } catch {
     return null;
   }
@@ -55,13 +62,18 @@ export default async function PostDetail({ params }: { params: { slug: string } 
     return <p>Gönderi bulunamadı.</p>;
   }
 
-  const imageUrl = post.coverImage?.data?.attributes?.url || '/4.jpg';
+  const defaultImage = "/4.jpg";
+  const imageUrl = post.coverImage || defaultImage;
 
   return (
     <div className="max-w-3xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
       <p className="text-gray-600 mb-2">
-        {new Date(post.publishedAt).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}
+        {new Date(post.publishedAt).toLocaleDateString('tr-TR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })}
       </p>
       <div className="relative w-full h-64 mb-4 rounded overflow-hidden">
         <Image

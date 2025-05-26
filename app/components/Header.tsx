@@ -17,14 +17,12 @@ function Header() {
   return (
     <header className="bg-orange-700 shadow-md py-4 px-6 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        {/* Logo / Site İsmi */}
         <Link href="/">
           <h1 className="text-xl font-bold text-white hover:text-blue-200 transform hover:-translate-scale-0.5 transition duration-500 cursor-pointer">
             İBRAHİM ETHEM ÖZTÜRK
           </h1>
         </Link>
 
-        {/* Arama Kutusu */}
         <div className="w-full max-w-sm flex">
           <input
             type="text"

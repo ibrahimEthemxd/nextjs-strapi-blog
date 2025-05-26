@@ -43,7 +43,6 @@ export default async function BlogList({ searchParams }: { searchParams: { page?
                 ))}
             </div>
 
-            {/* Sayfalama */}
             <div className="flex justify-center gap-2 mt-8">
                 {Array.from({ length: pagination.pageCount }, (_, i) => (
                     <Link
