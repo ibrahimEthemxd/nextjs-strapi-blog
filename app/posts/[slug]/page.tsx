@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Post {
   title: string;
@@ -76,6 +77,13 @@ export default async function PostDetail({ params }: { params: { slug: string } 
         {post.description?.[0]?.children?.[0]?.text || 'İçerik bulunamadı.'}
       </p>
       <p className="mt-4 text-sm text-gray-500">Yazar: {post.author || 'Bilinmiyor'}</p>
+      <div className="mt-8 text-right">
+        <Link href={`/edit/${params.slug}`}>
+          <button className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Düzenle
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

@@ -15,11 +15,11 @@ function Header() {
   };
 
   return (
-    <header className="bg-green-500 shadow-sm py-4 px-6">
+    <header className="bg-orange-700 shadow-md py-4 px-6 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* Logo / Site İsmi */}
         <Link href="/">
-          <h1 className="text-xl font-bold text-gray-800 hover:text-blue-600 transition cursor-pointer">
+          <h1 className="text-xl font-bold text-white hover:text-blue-200 transform hover:-translate-scale-0.5 transition duration-500 cursor-pointer">
             İBRAHİM ETHEM ÖZTÜRK
           </h1>
         </Link>
@@ -29,7 +29,7 @@ function Header() {
           <input
             type="text"
             placeholder="Ara..."
-            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-md px-4 py-2 outline-0 text-white"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={(e) => {
@@ -38,7 +38,7 @@ function Header() {
           />
           <button
             onClick={handleSearch}
-            className="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            className="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer"
           >
             Ara
           </button>

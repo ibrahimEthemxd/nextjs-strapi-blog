@@ -43,8 +43,8 @@ export default function CreatePostPage() {
       if (res.ok) {
         setMessage('Blog başarıyla oluşturuldu!');
         setTimeout(() => {
-          router.push('/'); // Ana sayfaya yönlendir
-        }, 1500); // 1.5 saniye bekle sonra yönlendir
+          router.push('/'); 
+        }, 1500);
       } else {
         const error = await res.json();
         console.error('Hata:', error);
@@ -70,7 +70,7 @@ export default function CreatePostPage() {
         />
 
         <textarea
-          placeholder="Açıklama (description)"
+          placeholder="Açıklama"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           className="w-full border rounded px-4 py-2 h-32"
@@ -87,7 +87,7 @@ export default function CreatePostPage() {
 
         <input
           type="text"
-          placeholder="Alıntı (excerpt)"
+          placeholder="Özet"
           value={excerpt}
           onChange={(e) => setExcerpt(e.target.value)}
           className="w-full border rounded px-4 py-2"
@@ -95,7 +95,7 @@ export default function CreatePostPage() {
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700 transition"
         >
           Blogu Oluştur
         </button>
