@@ -10,7 +10,7 @@ export default function CreatePostPage() {
   const [description, setDescription] = useState('');
   const [author, setAuthor] = useState('');
   const [excerpt, setExcerpt] = useState('');
-  const [message, setMessage] = useState(''); 
+  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ export default function CreatePostPage() {
       if (res.ok) {
         setMessage('Blog başarıyla oluşturuldu!');
         setTimeout(() => {
-          router.push('/'); 
+          router.push('/');
         }, 1500);
       } else {
         const error = await res.json();
@@ -102,7 +102,10 @@ export default function CreatePostPage() {
       </form>
 
       {message && (
-        <div className="mt-4 p-3 bg-green-200 text-green-800 rounded">
+        <div
+          className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-200 text-green-800 px-6 py-3 rounded shadow-lg z-50 font-semibold"
+          role="alert"
+        >
           {message}
         </div>
       )}
