@@ -94,11 +94,6 @@ export default async function PostDetail({ params }: { params: { slug: string } 
       </p>
       <p className="mt-4 text-sm text-gray-500">Yazar: {post.author || 'Bilinmiyor'}</p>
       <div className="mt-8 text-right">
-        <Link href={`/edit/${params.slug}`}>
-          <button className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Düzenle
-          </button>
-        </Link>
       </div>
     </div>
   );
