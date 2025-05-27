@@ -63,7 +63,7 @@ export default async function PostDetail({ params }: { params: { slug: string } 
   const post = await getPost(params.slug);
 
   if (!post) {
-    return <p>Gönderi bulunamadı.</p>;
+    return <p>Gönderi bulunamıyor.</p>;
   }
 
   const defaultImage = "/4.jpg";
