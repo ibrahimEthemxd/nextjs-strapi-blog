@@ -1,5 +1,5 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
-import type { Metadata } from 'next';
 
 interface Post {
   title: string;
@@ -10,15 +10,9 @@ interface Post {
   author?: string;
 }
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+// ✅ 1. Statik parametre üretimi
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const res = await fetch(`${API_URL}/api/posts`);
   const data = await res.json();
@@ -28,6 +22,7 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   }));
 }
 
+// ✅ 2. Post verisini getirme
 async function getPost(slug: string): Promise<Post | null> {
   try {
     const res = await fetch(`${API_URL}/api/posts?filters[slug][$eq]=${slug}&populate=*`);
@@ -52,11 +47,16 @@ async function getPost(slug: string): Promise<Post | null> {
   }
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+// ✅ 3. Metadata (head) üretimi
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   const post = await getPost(params.slug);
 
   if (!post) {
-    return { title: "Gönderi bulunamadı" };
+    return { title: 'Gönderi bulunamadı' };
   }
 
   return {
@@ -65,15 +65,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-
-export default async function PostDetail({ params }: PageProps) {
+// ✅ 4. Sayfa component'i
+export default async function PostDetail({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const post = await getPost(params.slug);
 
   if (!post) {
     return <p>Gönderi bulunamıyor.</p>;
   }
 
-  const defaultImage = "/4.jpg";
+  const defaultImage = '/4.jpg';
   const imageUrl = post.coverImage || defaultImage;
 
   return (
@@ -99,9 +103,9 @@ export default async function PostDetail({ params }: PageProps) {
       <p className="text-lg leading-relaxed">
         {post.description?.[0]?.children?.[0]?.text || 'İçerik bulunamadı.'}
       </p>
-      <p className="mt-4 text-sm text-gray-500">Yazar: {post.author || 'Bilinmiyor'}</p>
-      <div className="mt-8 text-right">
-      </div>
+      <p className="mt-4 text-sm text-gray-500">
+        Yazar: {post.author || 'Bilinmiyor'}
+      </p>
     </div>
   );
 }
