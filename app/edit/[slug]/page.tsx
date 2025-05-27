@@ -3,65 +3,84 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-interface Post {
-  id: number;
-  title: string;
-  slug: string;
-  publishedAt: string;
-  description?: { type: string; children: { type: string; text: string }[] }[];
-  author?: string | null;
-}
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN || '';
 
-export default function EditPage({ params }: { params: { slug: string } }) {
+interface PostForm {
+  title: string;
+  author: string;
+  description: string;
+}
+
+interface EditPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default function EditPage({ params }: EditPageProps) {
   const { slug } = params;
+  const router = useRouter();
 
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<PostForm>({
     title: '',
     author: '',
     description: '',
   });
   const [postId, setPostId] = useState<number | null>(null);
-  const router = useRouter();
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    const fetchPostBySlug = async () => {
+    async function fetchPostBySlug() {
+      setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/api/posts?filters[slug][$eq]=${slug}&locale=en&populate=*`);
+        const res = await fetch(
+          `${API_URL}/api/posts?filters[slug][$eq]=${slug}&locale=en&populate=*`
+        );
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
         const data = await res.json();
-        const raw = data.data[0];
+        const raw = data.data?.[0];
 
         if (raw) {
           setPostId(raw.id);
           setForm({
-            title: raw.title,
+            title: raw.title || '',
             author: raw.author || '',
-            description: raw.description?.[0]?.children?.[0]?.text || '',
+            description:
+              raw.description?.[0]?.children?.[0]?.text || '',
           });
+        } else {
+          setPostId(null);
         }
       } catch (error) {
         console.error('Veri alınırken hata oluştu:', error);
+        setPostId(null);
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     fetchPostBySlug();
   }, [slug]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!postId) {
       alert('Gönderi ID’si alınamadı.');
       return;
     }
+
+    setUpdating(true);
 
     const updatedData = {
       title: form.title,
@@ -77,20 +96,29 @@ export default function EditPage({ params }: { params: { slug: string } }) {
       ],
     };
 
-    const res = await fetch(`${API_URL}/api/posts/${postId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
-      body: JSON.stringify({ data: updatedData }),
-    });
+    try {
+      const res = await fetch(`${API_URL}/api/posts/${postId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(API_TOKEN && { Authorization: `Bearer ${API_TOKEN}` }),
+        },
+        body: JSON.stringify({ data: updatedData }),
+      });
 
-    if (res.ok) {
-      alert('Blog başarıyla güncellendi!');
-      router.push(`/posts/${slug}`);
-    } else {
-      alert('Güncelleme başarısız oldu!');
+      if (res.ok) {
+        alert('Blog başarıyla güncellendi!');
+        router.push(`/posts/${slug}`);
+      } else {
+        const errorData = await res.json();
+        console.error('Güncelleme hatası:', errorData);
+        alert('Güncelleme başarısız oldu!');
+      }
+    } catch (error) {
+      console.error('Güncelleme sırasında hata oluştu:', error);
+      alert('Güncelleme sırasında bir hata oluştu!');
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -107,6 +135,8 @@ export default function EditPage({ params }: { params: { slug: string } }) {
           onChange={handleChange}
           className="w-full p-2 border rounded"
           placeholder="Başlık"
+          required
+          disabled={updating}
         />
         <input
           name="author"
@@ -114,6 +144,7 @@ export default function EditPage({ params }: { params: { slug: string } }) {
           onChange={handleChange}
           className="w-full p-2 border rounded"
           placeholder="Yazar"
+          disabled={updating}
         />
         <textarea
           name="description"
@@ -121,10 +152,13 @@ export default function EditPage({ params }: { params: { slug: string } }) {
           onChange={handleChange}
           className="w-full p-2 border rounded h-40"
           placeholder="Açıklama"
+          required
+          disabled={updating}
         />
         <button
           type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
+          disabled={updating}
         >
           Güncelle
         </button>
