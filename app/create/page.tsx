@@ -11,6 +11,10 @@ export default function CreatePostPage() {
   const [author, setAuthor] = useState('');
   const [excerpt, setExcerpt] = useState('');
   const [message, setMessage] = useState('');
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN || '';
+
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,11 +35,11 @@ export default function CreatePostPage() {
     };
 
     try {
-      const res = await fetch('http://localhost:1337/api/posts', {
+      const res = await fetch(`${API_URL}/api/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer 6bb7213a09d24f18385fec74a74af79c8a40df310fc4464b2d4506912c9d1aa2c813f8aa9fec55d40b649c07c19d6faa092d4158a79974076ba4cd70b1a11a7412b592ac480b52e7bce7a2c9d67a9b95ee094bb1fd297499e6c3782d27306a72e16d0c8162efc84bdfd1f44ecb76012e3ba1123c257978f5a3930d8237fed689`,
+          Authorization: `Bearer ${API_TOKEN}`,
         },
         body: JSON.stringify(postBody),
       });

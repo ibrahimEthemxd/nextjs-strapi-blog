@@ -9,18 +9,22 @@ interface Post {
   coverImage?: string | null;
   author?: string;
 }
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function generateStaticParams() {
-  const res = await fetch('http://localhost:1337/api/posts');
+
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  const res = await fetch(`${API_URL}/api/posts`);
   const data = await res.json();
+
   return data.data.map((item: any) => ({
     slug: item.slug,
   }));
 }
 
+
 async function getPost(slug: string): Promise<Post | null> {
   try {
-    const res = await fetch(`http://localhost:1337/api/posts?filters[slug][$eq]=${slug}&populate=*`);
+    const res = await fetch(`${API_URL}/api/posts?filters[slug][$eq]=${slug}&populate=*`);
     if (!res.ok) return null;
     const data = await res.json();
     const item = data.data[0];
@@ -33,7 +37,7 @@ async function getPost(slug: string): Promise<Post | null> {
       publishedAt: item.publishedAt,
       description: item.description,
       coverImage: item.coverImage?.url
-        ? `http://localhost:1337${item.coverImage.url}`
+        ? `${API_URL}${item.coverImage.url}`
         : null,
       author: item.author,
     };

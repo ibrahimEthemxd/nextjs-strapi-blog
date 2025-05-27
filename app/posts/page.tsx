@@ -2,9 +2,11 @@ import BlogCard from '../components/BlogCard';
 import Link from 'next/link';
 
 const POSTS_PER_PAGE = 6;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
 async function getPosts(page: number) {
-    const res = await fetch(`http://localhost:1337/api/posts?pagination[page]=${page}&pagination[pageSize]=${POSTS_PER_PAGE}&populate=*`, {
+    const res = await fetch(`${API_URL}/api/posts?pagination[page]=${page}&pagination[pageSize]=${POSTS_PER_PAGE}&populate=*`, {
         cache: 'no-store'
     });
 
@@ -34,7 +36,7 @@ export default async function BlogList({ searchParams }: { searchParams: { page?
                             title: post.title,
                             excerpt: post.excerpt,
                             coverImage: post.coverImage?.url
-                                ? `http://localhost:1337${post.coverImage?.url}`
+                                ? `${API_URL}${post.coverImage?.url}`
                                 : null,
                             publishedAt: post.publishedAt,
                             author: post.author

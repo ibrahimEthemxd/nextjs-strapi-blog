@@ -9,6 +9,8 @@ export default function SearchPage() {
   const query = searchParams.get('query') || '';
 
   const [posts, setPosts] = useState<any[]>([]);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
   useEffect(() => {
     if (!query) {
@@ -16,7 +18,7 @@ export default function SearchPage() {
       return;
     }
 
-    fetch(`http://localhost:1337/api/posts?filters[title][$containsi]=${query}&populate=coverImage`)
+    fetch(`${API_URL}/api/posts?filters[title][$containsi]=${query}&populate=coverImage`)
       .then(res => res.json())
       .then(data => {
         if (data.data) setPosts(data.data);
@@ -32,7 +34,7 @@ export default function SearchPage() {
           const { id, title, slug, coverImage, description, author, publishedAt } = post;
 
           const imageUrl = coverImage && coverImage.url
-            ? `http://localhost:1337${coverImage.url}`
+            ? `${API_URL}${coverImage.url}`
             : '/4.jpg';
 
           const excerpt =
