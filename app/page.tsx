@@ -7,6 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 async function getPosts() {
   const res = await fetch(`${API_URL}/api/posts?populate=*`);
   const data = await res.json();
+  if (!data || !data.data) return [];
   return data.data.slice(0, 9).map((item: any) => ({
     id: item.id,
     title: item.title,
