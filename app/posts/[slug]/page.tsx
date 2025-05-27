@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import type { Metadata } from 'next';
 
 interface Post {
   title: string;
@@ -14,6 +15,7 @@ interface PageProps {
     slug: string;
   };
 }
+
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -50,7 +52,7 @@ async function getPost(slug: string): Promise<Post | null> {
   }
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const post = await getPost(params.slug);
 
   if (!post) {
@@ -62,6 +64,7 @@ export async function generateMetadata({ params }: PageProps) {
     description: post.description?.[0]?.children?.[0]?.text || 'Blog gönderisi',
   };
 }
+
 
 export default async function PostDetail({ params }: PageProps) {
   const post = await getPost(params.slug);
