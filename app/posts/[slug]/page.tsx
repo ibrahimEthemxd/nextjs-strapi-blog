@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 interface Post {
   title: string;
@@ -9,8 +8,14 @@ interface Post {
   coverImage?: string | null;
   author?: string;
 }
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const res = await fetch(`${API_URL}/api/posts`);
@@ -20,7 +25,6 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
     slug: item.slug,
   }));
 }
-
 
 async function getPost(slug: string): Promise<Post | null> {
   try {
@@ -46,7 +50,7 @@ async function getPost(slug: string): Promise<Post | null> {
   }
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: PageProps) {
   const post = await getPost(params.slug);
 
   if (!post) {
@@ -59,7 +63,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function PostDetail({ params }: { params: { slug: string } }) {
+export default async function PostDetail({ params }: PageProps) {
   const post = await getPost(params.slug);
 
   if (!post) {
