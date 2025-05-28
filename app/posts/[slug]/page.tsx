@@ -12,7 +12,6 @@ interface Post {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// ✅ 1. Statik parametre üretimi
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const res = await fetch(`${API_URL}/api/posts`);
   const data = await res.json();
@@ -22,7 +21,6 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   }));
 }
 
-// ✅ 2. Post verisini getirme
 async function getPost(slug: string): Promise<Post | null> {
   try {
     const res = await fetch(`${API_URL}/api/posts?filters[slug][$eq]=${slug}&populate=*`);
@@ -47,7 +45,6 @@ async function getPost(slug: string): Promise<Post | null> {
   }
 }
 
-// ✅ 3. Metadata (head) üretimi
 export async function generateMetadata({
   params,
 }: {
@@ -65,7 +62,6 @@ export async function generateMetadata({
   };
 }
 
-// ✅ 4. Sayfa component'i
 export default async function PostDetail({
   params,
 }: {

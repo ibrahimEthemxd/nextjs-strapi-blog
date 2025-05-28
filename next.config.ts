@@ -1,10 +1,8 @@
-// next.config.ts
-
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['localhost'],
+    domains: ['automatic-hug-7350d0eb7f.strapiapp.com','localhost'],
   },
 };
 
